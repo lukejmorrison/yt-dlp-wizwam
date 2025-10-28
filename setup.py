@@ -28,7 +28,6 @@ setup(
     entry_points={
         "console_scripts": [
             "wizwam=wizwam.cli:main",
-            "wizwam-web=wizwam.web:main",
         ],
     },
 )

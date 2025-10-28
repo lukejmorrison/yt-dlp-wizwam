@@ -1,7 +1,6 @@
 """
 Core downloader implementation using yt-dlp
 """
-import os
 from typing import Dict, Any, Optional, Callable
 from pathlib import Path
 import yt_dlp

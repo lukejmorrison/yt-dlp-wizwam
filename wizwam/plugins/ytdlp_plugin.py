@@ -13,8 +13,15 @@ class YtDlpPlugin(DownloaderPlugin):
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__(config)
-        output_dir = self.config.get('output_dir', './downloads')
-        self.downloader = Downloader(output_dir)
+        self._downloader = None
+    
+    @property
+    def downloader(self) -> Downloader:
+        """Lazy-load the downloader instance"""
+        if self._downloader is None:
+            output_dir = self.config.get('output_dir', './downloads')
+            self._downloader = Downloader(output_dir)
+        return self._downloader
     
     @property
     def name(self) -> str:

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ filename }} - yt-dlp-wizwam Viewer</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .viewer-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .video-wrapper {
+            width: 100%;
+            max-width: 1920px;
+            background-color: #000;
+        }
+        
+        video {
+            width: 100%;
+            height: auto;
+            max-height: calc(100vh - 100px);
+        }
+        
+        .controls-info {
+            background-color: var(--matrix-dark);
+            border: 1px solid var(--matrix-green);
+            padding: 15px;
+            margin-top: 20px;
+            max-width: 900px;
+            width: calc(100% - 40px);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .controls-info h3 {
+            color: var(--matrix-green);
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        
+        .filename-display {
+            color: var(--matrix-light);
+            margin: 15px 0 5px 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            font-size: 0.85rem;
+            padding: 10px;
+            background-color: rgba(0, 255, 65, 0.05);
+            border: 1px solid var(--matrix-dim);
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .shortcuts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: auto;
+        }
+        
+        .shortcuts-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--matrix-dim);
+            text-align: left;
+            vertical-align: middle;
+        }
+        
+        .shortcuts-table td:first-child {
+            width: 80px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        .shortcuts-table td:last-child {
+            color: var(--matrix-light);
+            font-size: 0.9rem;
+        }
+        
+        .key {
+            background-color: var(--matrix-dark);
+            border: 1px solid var(--matrix-green);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: var(--matrix-green);
+            white-space: nowrap;
+            font-size: 0.85rem;
+            display: inline-block;
+            min-width: 35px;
+            text-align: center;
+        }
+        
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--matrix-green);
+            color: var(--matrix-dark);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        
+        .close-btn:hover {
+            background-color: var(--matrix-light);
+        }
+        
+        /* Responsive adjustments for narrow screens */
+        @media (max-width: 768px) {
+            .viewer-container {
+                padding: 10px;
+            }
+            
+            .controls-info {
+                padding: 10px;
+                margin-top: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .controls-info h3 {
+                font-size: 1rem;
+            }
+            
+            .filename-display {
+                font-size: 0.7rem;
+                padding: 8px;
+            }
+            
+            .shortcuts-table td {
+                padding: 8px 6px;
+                font-size: 0.85rem;
+            }
+            
+            .shortcuts-table td:first-child {
+                width: 60px;
+            }
+            
+            .key {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                min-width: 30px;
+            }
+            
+            .close-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+                top: 10px;
+                right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .controls-info {
+                padding: 8px;
+            }
+            
+            .filename-display {
+                font-size: 0.65rem;
+                padding: 6px;
+            }
+            
+            .shortcuts-table td {
+                padding: 6px 4px;
+                font-size: 0.8rem;
+            }
+            
+            .shortcuts-table td:first-child {
+                width: 50px;
+            }
+            
+            .key {
+                font-size: 0.7rem;
+                padding: 2px 6px;
+                min-width: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="close-btn" onclick="window.close()">✕ Close</button>
+    
+    <div class="viewer-container">
+        <div class="video-wrapper">
+            <video id="video-player" controls autoplay>
+                <source src="{{ url_for('serve_file', filename=filename) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="controls-info">
+            <h3>⌨️ Keyboard Shortcuts</h3>
+            <table class="shortcuts-table">
+                <tr>
+                    <td><span class="key">Space</span></td>
+                    <td>Play/Pause</td>
+                </tr>
+                <tr>
+                    <td><span class="key">K</span></td>
+                    <td>Play/Pause</td>
+                </tr>
+                <tr>
+                    <td><span class="key">←</span></td>
+                    <td>Rewind 5s</td>
+                </tr>
+                <tr>
+                    <td><span class="key">→</span></td>
+                    <td>Forward 5s</td>
+                </tr>
+                <tr>
+                    <td><span class="key">J</span></td>
+                    <td>Rewind 10s</td>
+                </tr>
+                <tr>
+                    <td><span class="key">L</span></td>
+                    <td>Forward 10s</td>
+                </tr>
+                <tr>
+                    <td><span class="key">↑</span></td>
+                    <td>Volume Up</td>
+                </tr>
+                <tr>
+                    <td><span class="key">↓</span></td>
+                    <td>Volume Down</td>
+                </tr>
+                <tr>
+                    <td><span class="key">M</span></td>
+                    <td>Mute/Unmute</td>
+                </tr>
+                <tr>
+                    <td><span class="key">F</span></td>
+                    <td>Fullscreen</td>
+                </tr>
+                <tr>
+                    <td><span class="key">0-9</span></td>
+                    <td>Jump to %</td>
+                </tr>
+                <tr>
+                    <td><span class="key">,</span></td>
+                    <td>Frame Back</td>
+                </tr>
+                <tr>
+                    <td><span class="key">.</span></td>
+                    <td>Frame Forward</td>
+                </tr>
+            </table>
+            <div class="filename-display">
+                📁 {{ filename }}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const video = document.getElementById('video-player');
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Prevent default for media keys
+            if (['Space', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'KeyF', 'KeyM', 'KeyJ', 'KeyK', 'KeyL'].includes(e.code)) {
+                e.preventDefault();
+            }
+            
+            switch(e.code) {
+                case 'Space':
+                case 'KeyK':
+                    // Play/Pause
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                    break;
+                    
+                case 'ArrowLeft':
+                    // Rewind 5 seconds
+                    video.currentTime = Math.max(0, video.currentTime - 5);
+                    break;
+                    
+                case 'ArrowRight':
+                    // Forward 5 seconds
+                    video.currentTime = Math.min(video.duration, video.currentTime + 5);
+                    break;
+                    
+                case 'KeyJ':
+                    // Rewind 10 seconds
+                    video.currentTime = Math.max(0, video.currentTime - 10);
+                    break;
+                    
+                case 'KeyL':
+                    // Forward 10 seconds
+                    video.currentTime = Math.min(video.duration, video.currentTime + 10);
+                    break;
+                    
+                case 'ArrowUp':
+                    // Volume up
+                    video.volume = Math.min(1, video.volume + 0.1);
+                    break;
+                    
+                case 'ArrowDown':
+                    // Volume down
+                    video.volume = Math.max(0, video.volume - 0.1);
+                    break;
+                    
+                case 'KeyF':
+                    // Fullscreen
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    } else {
+                        video.requestFullscreen();
+                    }
+                    break;
+                    
+                case 'KeyM':
+                    // Mute/Unmute
+                    video.muted = !video.muted;
+                    break;
+                    
+                case 'Comma':
+                    // Frame back (0.04s = 1 frame at 25fps)
+                    video.pause();
+                    video.currentTime = Math.max(0, video.currentTime - 0.04);
+                    break;
+                    
+                case 'Period':
+                    // Frame forward
+                    video.pause();
+                    video.currentTime = Math.min(video.duration, video.currentTime + 0.04);
+                    break;
+            }
+            
+            // Number keys 0-9 for jumping to percentage
+            if (e.code.startsWith('Digit')) {
+                const digit = parseInt(e.code.replace('Digit', ''));
+                video.currentTime = (video.duration * digit) / 10;
+            }
+        });
+        
+        // Show video metadata on load
+        video.addEventListener('loadedmetadata', () => {
+            const duration = Math.floor(video.duration);
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            console.log(`Video loaded: ${video.videoWidth}x${video.videoHeight}, ${minutes}:${seconds.toString().padStart(2, '0')}`);
+        });
+    </script>
+</body>
+</html>

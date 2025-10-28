@@ -1,0 +1,28 @@
+# Include additional files in package distribution
+
+# Documentation
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+# Configuration files
+include pyproject.toml
+include requirements.txt
+
+# Templates and static files
+recursive-include yt_dlp_wizwam/templates *.html
+recursive-include yt_dlp_wizwam/static *.css *.js *.png *.jpg *.ico *.svg
+
+# Desktop integration files
+recursive-include desktop *.desktop *.png *.ico
+
+# Exclude development files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.swp
+global-exclude *~
+
+# Exclude test files
+recursive-exclude tests *
+recursive-exclude docs *

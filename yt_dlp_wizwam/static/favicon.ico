@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizwam - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- New Top Header -->
+    <div class="bg-gray-800 h-5 w-full"></div>
+
+    <!-- Existing Top Menu -->
+    <header class="bg-gray-700 text-white p-4 flex justify-between items-center shadow-md">
+        <div class="text-2xl font-bold">Wizwam</div>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="text-white hover:text-blue-300 font-bold underline">Home</a></li>
+                <li><a href="contact.html" class="text-white hover:text-blue-300">Contact Us</a></li>
+                <li><a href="documents.html" class="text-white hover:text-blue-300">Documents</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-8">
+        <!-- Page-specific content goes here -->
+        <section class="hero bg-gray-100 rounded-lg shadow-md mx-auto max-w-4xl p-8">
+            <h1 class="text-4xl font-bold text-blue-600">Welcome to Wizwam</h1>
+            <p class="text-xl text-gray-700 mt-2">LET US HELP YOU GO FASTER</p>
+            <p class="text-xl text-gray-700 mt-2">Check out the awesome</p>
+            <p class="text-xl text-gray-700 mt-2">ICON Phoenix Robots</p>
+            <div class="mt-6 flex space-x-4">
+                <a href="https://codex.iconbuild.com/all" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block">
+                    Start Exploring
+                </a>
+                <a href="contact.html" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block">
+                    Contact Us
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-white text-center py-4 w-full mt-8">
+        <p>© 2025 Wizwam. All rights reserved.</p>
+    </footer>
+<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "69195410e806411b8f2179ef188025c3"}'></script><!-- Cloudflare Pages Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"231161408d5743ceb7d8dbc7ca4690dd","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

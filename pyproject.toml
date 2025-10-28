@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yt-dlp-wizwam"
+version = "0.0.2-alpha"
+description = "Advanced YouTube downloader with CLI and web interface"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Luke J Morrison", email = "your.email@example.com"}
+]
+keywords = ["youtube", "download", "video", "yt-dlp", "downloader", "cli", "web"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+]
+
+dependencies = [
+    "yt-dlp>=2024.10.07",
+    "Flask>=3.0.0",
+    "Flask-SocketIO>=5.3.0",
+    "Flask-CORS>=4.0.0",
+    "click>=8.1.0",
+    "requests>=2.31.0",
+    "eventlet>=0.40.0",
+    "python-socketio>=5.10.0",
+    "imageio-ffmpeg>=0.4.9",
+    "psutil>=5.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.7.0",
+    "flake8>=6.1.0",
+    "mypy>=1.5.0",
+    "twine>=4.0.0",
+]
+docker = [
+    "redis>=5.0.0",
+    "celery>=5.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/lukejmorrison/yt-dlp-wizwam"
+Documentation = "https://github.com/lukejmorrison/yt-dlp-wizwam/wiki"
+Repository = "https://github.com/lukejmorrison/yt-dlp-wizwam"
+Issues = "https://github.com/lukejmorrison/yt-dlp-wizwam/issues"
+
+[project.scripts]
+downloader = "yt_dlp_wizwam.cli:main"
+yt-dlp-web = "yt_dlp_wizwam.cli:start_web"
+yt-dlp-cli = "yt_dlp_wizwam.cli:cli_download"
+
+[tool.setuptools]
+packages = ["yt_dlp_wizwam"]
+
+[tool.setuptools.package-data]
+yt_dlp_wizwam = [
+    "templates/*.html",
+    "static/**/*",
+    "static/css/*",
+    "static/js/*",
+    "static/dist/*",
+    "static/src/*",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--cov=yt_dlp_wizwam",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false

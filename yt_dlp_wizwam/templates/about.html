@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - yt-dlp-wizwam</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">yt-dlp-wizwam</h1>
+            <p class="subtitle">Advanced YouTube Downloader v{{ version }}</p>
+            <nav>
+                <a href="/">Download</a>
+                <a href="/about" class="active">About</a>
+                <a href="/settings">Settings</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="about-section">
+                <h2>About yt-dlp-wizwam</h2>
+                
+                <div class="info-box">
+                    <h3>What is this?</h3>
+                    <p>
+                        A powerful, user-friendly wrapper around yt-dlp that provides both 
+                        command-line and web interfaces for downloading videos from 1800+ websites.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>🚀 Dual Interface: CLI for power users, web UI for everyone</li>
+                        <li>🎯 Smart Downloads: Automatic format selection optimized for compatibility</li>
+                        <li>🌐 1800+ Sites: YouTube, Twitter/X, Instagram, TikTok, and more</li>
+                        <li>📱 Mobile-Friendly: Share downloaded videos directly to Signal, AirDrop, etc.</li>
+                        <li>⚡ Real-time Progress: WebSocket-based live updates</li>
+                        <li>🎨 Matrix Theme: Retro-futuristic interface with Douglas Adams humor</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Version Information</h3>
+                    <p><strong>Version:</strong> {{ version }}</p>
+                    <p><strong>Mode:</strong> Embedded (Desktop)</p>
+                    <p><strong>Download Directory:</strong> <code id="download-dir"></code></p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Don't Panic!</h3>
+                    <p>
+                        "In the beginning the Universe was created. This has made a lot of people 
+                        very angry and been widely regarded as a bad move."
+                    </p>
+                    <p class="quote-author">― Douglas Adams, The Restaurant at the End of the Universe</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Credits</h3>
+                    <p>Built with:</p>
+                    <ul>
+                        <li><a href="https://github.com/yt-dlp/yt-dlp" target="_blank">yt-dlp</a> - Video downloader engine</li>
+                        <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask</a> - Web framework</li>
+                        <li><a href="https://socket.io/" target="_blank">Socket.IO</a> - Real-time updates</li>
+                        <li><a href="https://click.palletsprojects.com/" target="_blank">Click</a> - CLI framework</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Don't Panic! 🚀 | Powered by yt-dlp</p>
+        </footer>
+    </div>
+
+    <script>
+        // Load config and display download directory
+        fetch('/api/config')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('download-dir').textContent = data.download_dir;
+            })
+            .catch(error => console.error('Error loading config:', error));
+    </script>
+</body>
+</html>

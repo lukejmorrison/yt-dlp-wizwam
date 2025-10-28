@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - yt-dlp-wizwam</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">yt-dlp-wizwam</h1>
+            <p class="subtitle">Advanced YouTube Downloader v{{ version }}</p>
+            <nav>
+                <a href="/">Download</a>
+                <a href="/about">About</a>
+                <a href="/settings" class="active">Settings</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="settings-section">
+                <h2>Settings</h2>
+                
+                <div class="info-box">
+                    <h3>Download Directory</h3>
+                    <p>Current directory: <code id="download-dir"></code></p>
+                    
+                    <form id="download-dir-form">
+                        <div class="form-group">
+                            <label for="new-download-dir">New Download Directory:</label>
+                            <div class="path-input-group">
+                                <input type="text" id="new-download-dir" placeholder="/path/to/downloads" class="path-input">
+                                <input type="file" id="folder-picker" webkitdirectory directory multiple style="display: none;">
+                                <button type="button" id="browse-btn" class="btn-secondary">📁 Browse</button>
+                            </div>
+                            <small class="form-help">Click Browse to select a folder, or type the full path manually</small>
+                            <div id="dir-validation" class="validation-message"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" id="save-dir-btn">💾 Save Directory</button>
+                    </form>
+                </div>
+
+                <div class="info-box">
+                    <h3>Server Configuration</h3>
+                    <p><strong>Deployment Mode:</strong> <code id="deployment-mode"></code></p>
+                    <p><strong>Server:</strong> <code id="server-info"></code></p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Default Settings</h3>
+                    <form id="settings-form">
+                        <div class="form-group">
+                            <label for="default_quality">Default Quality:</label>
+                            <select id="default_quality">
+                                <option value="720p" selected>720p (Recommended)</option>
+                                <option value="1080p">1080p</option>
+                                <option value="4k">4K</option>
+                                <option value="480p">480p</option>
+                                <option value="360p">360p</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="default_video_codec">Default Video Codec:</label>
+                            <select id="default_video_codec">
+                                <option value="avc1" selected>H.264 (Best Compatibility)</option>
+                                <option value="av1">AV1 (Best Compression)</option>
+                                <option value="vp9">VP9 (Good Compression)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="default_audio_codec">Default Audio Codec:</label>
+                            <select id="default_audio_codec">
+                                <option value="m4a" selected>AAC (Best Compatibility)</option>
+                                <option value="opus">Opus (Best Quality)</option>
+                                <option value="mp3">MP3 (Universal)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Save Settings</button>
+                    </form>
+                    <p class="note">Note: Settings are stored in your browser's local storage.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Advanced</h3>
+                    <p>For advanced configuration, set environment variables:</p>
+                    <ul>
+                        <li><code>YT_DLP_WIZWAM_DOWNLOAD_DIR</code> - Custom download directory</li>
+                        <li><code>PORT</code> - Custom server port (default: 42070)</li>
+                        <li><code>HOST</code> - Custom server host (default: 127.0.0.1)</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Don't Panic! 🚀 | Powered by yt-dlp</p>
+        </footer>
+    </div>
+
+    <script>
+        // Load config
+        fetch('/api/config')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('download-dir').textContent = data.download_dir;
+                document.getElementById('deployment-mode').textContent = data.deployment_mode;
+                document.getElementById('server-info').textContent = `${window.location.host}`;
+                
+                // Set placeholder to current directory
+                document.getElementById('new-download-dir').placeholder = data.download_dir;
+            })
+            .catch(error => console.error('Error loading config:', error));
+
+        // Folder picker (uses HTML5 directory selection)
+        const folderPicker = document.getElementById('folder-picker');
+        const browseBtn = document.getElementById('browse-btn');
+        const pathInput = document.getElementById('new-download-dir');
+        
+        browseBtn.addEventListener('click', () => {
+            // Trigger the hidden file input
+            folderPicker.click();
+        });
+        
+        folderPicker.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                // Get the path from the first file
+                const firstFile = e.target.files[0];
+                
+                // Extract directory path (webkitRelativePath gives us folder/file)
+                // We need to get the full path - but browsers don't expose this directly
+                
+                // For Chrome/Edge: try to get the full path
+                if (firstFile.webkitRelativePath) {
+                    const parts = firstFile.webkitRelativePath.split('/');
+                    const folderName = parts[0];
+                    
+                    // Show a prompt to manually complete the path
+                    const suggestedPath = prompt(
+                        'Browser Limitation: Cannot get full path automatically.\n\n' +
+                        'You selected folder: "' + folderName + '"\n\n' +
+                        'Please enter the FULL absolute path to this folder:',
+                        '/path/to/' + folderName
+                    );
+                    
+                    if (suggestedPath) {
+                        pathInput.value = suggestedPath;
+                        // Trigger validation
+                        pathInput.dispatchEvent(new Event('input'));
+                    }
+                } else {
+                    // Fallback for browsers that don't support directory selection
+                    alert(
+                        'Your browser doesn\'t support folder selection.\n\n' +
+                        'Please manually type the full path:\n' +
+                        'Examples:\n' +
+                        '  Linux/Mac: /home/username/Videos\n' +
+                        '  Windows: C:\\Users\\username\\Videos'
+                    );
+                }
+            }
+        });
+
+        // Validate directory as user types
+        let validationTimeout;
+        document.getElementById('new-download-dir').addEventListener('input', (e) => {
+            const path = e.target.value.trim();
+            const validationDiv = document.getElementById('dir-validation');
+            
+            if (!path) {
+                validationDiv.textContent = '';
+                validationDiv.className = 'validation-message';
+                return;
+            }
+            
+            // Clear previous timeout
+            clearTimeout(validationTimeout);
+            
+            // Debounce validation
+            validationTimeout = setTimeout(() => {
+                fetch('/api/config/validate-dir', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({path: path})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.valid) {
+                        validationDiv.textContent = data.message || '✓ Valid directory';
+                        validationDiv.className = 'validation-message success';
+                    } else {
+                        validationDiv.textContent = '✗ ' + data.error;
+                        validationDiv.className = 'validation-message error';
+                    }
+                })
+                .catch(error => {
+                    validationDiv.textContent = '✗ Validation error';
+                    validationDiv.className = 'validation-message error';
+                });
+            }, 500);
+        });
+
+        // Save download directory
+        document.getElementById('download-dir-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const newDir = document.getElementById('new-download-dir').value.trim();
+            
+            if (!newDir) {
+                alert('Please enter a directory path');
+                return;
+            }
+            
+            const saveBtn = document.getElementById('save-dir-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = '💾 Saving...';
+            
+            fetch('/api/config/download-dir', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({download_dir: newDir})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Download directory updated successfully!\n\nNew directory: ' + data.download_dir);
+                    document.getElementById('download-dir').textContent = data.download_dir;
+                    document.getElementById('new-download-dir').value = '';
+                    document.getElementById('dir-validation').textContent = '';
+                    document.getElementById('dir-validation').className = 'validation-message';
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('Error updating directory: ' + error.message);
+            })
+            .finally(() => {
+                saveBtn.disabled = false;
+                saveBtn.textContent = '💾 Save Directory';
+            });
+        });
+
+        // Load saved settings
+        const savedQuality = localStorage.getItem('default_quality') || '720p';
+        const savedVideoCodec = localStorage.getItem('default_video_codec') || 'avc1';
+        const savedAudioCodec = localStorage.getItem('default_audio_codec') || 'm4a';
+        
+        document.getElementById('default_quality').value = savedQuality;
+        document.getElementById('default_video_codec').value = savedVideoCodec;
+        document.getElementById('default_audio_codec').value = savedAudioCodec;
+
+        // Save settings
+        document.getElementById('settings-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem('default_quality', document.getElementById('default_quality').value);
+            localStorage.setItem('default_video_codec', document.getElementById('default_video_codec').value);
+            localStorage.setItem('default_audio_codec', document.getElementById('default_audio_codec').value);
+            alert('Settings saved!');
+        });
+    </script>
+</body>
+</html>

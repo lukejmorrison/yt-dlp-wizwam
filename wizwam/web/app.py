@@ -34,27 +34,35 @@ def create_app():
     @app.route('/api/info', methods=['POST'])
     def get_info():
         """Get video information"""
-        data = request.get_json()
-        url = data.get('url')
-        
-        if not url:
-            return jsonify({'success': False, 'error': 'URL is required'}), 400
-        
-        result = downloader.get_info(url)
-        return jsonify(result)
+        try:
+            data = request.get_json()
+            url = data.get('url')
+            
+            if not url:
+                return jsonify({'success': False, 'error': 'URL is required'}), 400
+            
+            result = downloader.get_info(url)
+            return jsonify(result)
+        except Exception:
+            # Don't expose internal error details
+            return jsonify({'success': False, 'error': 'Failed to retrieve video information'}), 500
     
     @app.route('/api/download', methods=['POST'])
     def download():
         """Download video/audio"""
-        data = request.get_json()
-        url = data.get('url')
-        options = data.get('options', {})
-        
-        if not url:
-            return jsonify({'success': False, 'error': 'URL is required'}), 400
-        
-        result = downloader.download(url, options)
-        return jsonify(result)
+        try:
+            data = request.get_json()
+            url = data.get('url')
+            options = data.get('options', {})
+            
+            if not url:
+                return jsonify({'success': False, 'error': 'URL is required'}), 400
+            
+            result = downloader.download(url, options)
+            return jsonify(result)
+        except Exception:
+            # Don't expose internal error details
+            return jsonify({'success': False, 'error': 'Download failed'}), 500
     
     @app.route('/api/plugins', methods=['GET'])
     def list_plugins():
@@ -73,7 +81,7 @@ def create_app():
 def main():
     """Entry point for web server"""
     app = create_app()
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=False)
 
 
 if __name__ == '__main__':

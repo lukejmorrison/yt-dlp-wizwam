@@ -65,9 +65,19 @@ class Downloader:
                     'filesize': info.get('filesize'),
                 }
         except Exception as e:
+            # Sanitize error message to avoid exposing internal details
+            error_msg = "Failed to download video"
+            # Only include safe error information
+            if "unavailable" in str(e).lower():
+                error_msg = "Video is unavailable"
+            elif "private" in str(e).lower():
+                error_msg = "Video is private"
+            elif "not found" in str(e).lower():
+                error_msg = "Video not found"
+            
             return {
                 'success': False,
-                'error': str(e),
+                'error': error_msg,
                 'url': url
             }
     
@@ -110,8 +120,18 @@ class Downloader:
                     'upload_date': info.get('upload_date'),
                 }
         except Exception as e:
+            # Sanitize error message to avoid exposing internal details
+            error_msg = "Failed to retrieve video information"
+            # Only include safe error information
+            if "unavailable" in str(e).lower():
+                error_msg = "Video is unavailable"
+            elif "private" in str(e).lower():
+                error_msg = "Video is private"
+            elif "not found" in str(e).lower():
+                error_msg = "Video not found"
+            
             return {
                 'success': False,
-                'error': str(e),
+                'error': error_msg,
                 'url': url
             }

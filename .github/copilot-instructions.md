@@ -4,7 +4,7 @@
 
 **Python package** providing YouTube/video downloader with dual interfaces: CLI + embedded web server. Being refactored from Docker-only web app (`yt-dlp.wizwam.com`) into pip-installable package (`yt-dlp-wizwam`).
 
-**Status:** Early development (v1.0.0 beta)  
+**Status:** Early development (v0.0.2-alpha)  
 **Architecture:** Single-process embedded mode (default) + optional Docker mode  
 **Target:** PyPI distribution following yt-dlp model (CLI + web in one package)
 
@@ -341,13 +341,28 @@ twine upload dist/*
 
 ## Version Management
 
-Update version in 3 places:
-1. `yt_dlp_wizwam/__init__.py` - `__version__ = '1.0.0'`
-2. `setup.py` - `version='1.0.0'`
-3. `pyproject.toml` - `version = "1.0.0"`
-4. `CHANGELOG.md` - Add new `## [1.0.X] - YYYY-MM-DD` section
+**Single Source of Truth:** `yt_dlp_wizwam/__init__.py`
 
-Follow [Semantic Versioning](https://semver.org/) and [Keep a Changelog](https://keepachangelog.com/).
+The version is defined in ONE place only: `yt_dlp_wizwam/__init__.py` as `__version__ = '0.0.2-alpha'`
+
+All other files read from this source:
+- `setup.py` - Uses `get_version()` function to dynamically extract from `__init__.py`
+- `scripts/sync-to-github.sh` - Reads `__version__` to create git tags
+- Runtime imports - `from yt_dlp_wizwam import __version__`
+
+**To update version:**
+1. Edit `yt_dlp_wizwam/__init__.py` - Change `__version__ = '0.0.X-alpha'`
+2. Update `CHANGELOG.md` - Add new `## [0.0.X-alpha] - YYYY-MM-DD` section with changes
+3. Everything else updates automatically
+
+**Version format:** Follow [Semantic Versioning](https://semver.org/)
+- Development: `0.0.X-alpha`, `0.0.X-beta`
+- Pre-release: `0.1.0-rc1`
+- Stable: `1.0.0`, `1.1.0`, `2.0.0`
+
+**Changelog format:** Follow [Keep a Changelog](https://keepachangelog.com/)
+
+**DO NOT** manually edit version in `setup.py` or `pyproject.toml` - they are not used as version sources.
 
 ## Gotchas
 

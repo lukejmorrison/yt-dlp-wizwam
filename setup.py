@@ -7,6 +7,7 @@ from 1800+ websites using yt-dlp.
 
 from setuptools import setup, find_packages
 import os
+import re
 
 # Read README for long description
 def read_file(filename):
@@ -17,9 +18,19 @@ def read_file(filename):
             return f.read()
     return ''
 
+def get_version():
+    """Extract version from yt_dlp_wizwam/__init__.py."""
+    init_path = os.path.join('yt_dlp_wizwam', '__init__.py')
+    with open(init_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+        match = re.search(r"^__version__\s*=\s*['\"]([^'\"]*)['\"]", content, re.M)
+        if match:
+            return match.group(1)
+    raise RuntimeError('Unable to find version string in yt_dlp_wizwam/__init__.py')
+
 setup(
     name='yt-dlp-wizwam',
-    version='0.0.2-alpha',
+    version=get_version(),
     author='Luke J Morrison',
     author_email='your.email@example.com',  # TODO: Update with real email
     description='Advanced YouTube downloader with CLI and web interface',

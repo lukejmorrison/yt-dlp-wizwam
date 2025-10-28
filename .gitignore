@@ -145,26 +145,19 @@ logs/
 *.log
 deployment_logs/
 
-# Secrets and sensitive data
+# Secrets
 config_local.py
 *.key
 *.pem
 cookies.txt
-.env
-.env.*
-!.env.example
-*.secret
-user_config.json
-config.json
 
-# NAS and deployment specific
-deployment_logs/
-sync-to-github.sh
-deploy-and-test.sh
+# Backup files
+*.backup
+*.backup-*
+*~
 
-# User data
-downloads/
-yt-dlp-wizwam/
+# Application data directory
+.yt-dlp-wizwam/
 
 # Tailwind build artifacts
 static/dist/

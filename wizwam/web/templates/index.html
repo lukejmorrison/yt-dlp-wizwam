@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yt-dlp-wizwam - Web Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result.success {
+            background: #c6f6d5;
+            border: 2px solid #48bb78;
+            color: #22543d;
+        }
+        
+        .result.error {
+            background: #fed7d7;
+            border: 2px solid #f56565;
+            color: #742a2a;
+        }
+        
+        .result.info {
+            background: #bee3f8;
+            border: 2px solid #4299e1;
+            color: #2c5282;
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loader.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-details {
+            margin-top: 10px;
+        }
+        
+        .info-details p {
+            margin: 5px 0;
+        }
+        
+        .checkbox-group {
+            margin: 15px 0;
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 wizwam</h1>
+            <p>yt-dlp Web Interface</p>
+        </div>
+        
+        <div class="card">
+            <div class="input-group">
+                <label for="url">Video URL</label>
+                <input type="text" id="url" placeholder="https://www.youtube.com/watch?v=..." />
+            </div>
+            
+            <div class="input-group">
+                <label for="format">Format</label>
+                <select id="format">
+                    <option value="best">Best Quality</option>
+                    <option value="worst">Worst Quality</option>
+                    <option value="bestvideo">Best Video Only</option>
+                    <option value="bestaudio">Best Audio Only</option>
+                </select>
+            </div>
+            
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" id="audioOnly" />
+                    Download as MP3 (audio only)
+                </label>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-secondary" onclick="getInfo()">Get Info</button>
+                <button class="btn-primary" onclick="download()">Download</button>
+            </div>
+            
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>Processing...</p>
+            </div>
+            
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+    
+    <script>
+        function showLoader() {
+            document.getElementById('loader').classList.add('active');
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        function hideLoader() {
+            document.getElementById('loader').classList.remove('active');
+        }
+        
+        function showResult(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message;
+            resultDiv.style.display = 'block';
+        }
+        
+        async function getInfo() {
+            const url = document.getElementById('url').value;
+            
+            if (!url) {
+                showResult('Please enter a URL', 'error');
+                return;
+            }
+            
+            showLoader();
+            
+            try {
+                const response = await fetch('/api/info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+                
+                const data = await response.json();
+                hideLoader();
+                
+                if (data.success) {
+                    let info = `<strong>${data.title}</strong>`;
+                    if (data.uploader) info += `<div class="info-details"><p>Uploader: ${data.uploader}</p>`;
+                    if (data.duration) info += `<p>Duration: ${Math.floor(data.duration / 60)}:${(data.duration % 60).toString().padStart(2, '0')}</p>`;
+                    if (data.formats) info += `<p>Available formats: ${data.formats.length}</p>`;
+                    info += '</div>';
+                    showResult(info, 'info');
+                } else {
+                    showResult(`Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                hideLoader();
+                showResult(`Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function download() {
+            const url = document.getElementById('url').value;
+            const format = document.getElementById('format').value;
+            const audioOnly = document.getElementById('audioOnly').checked;
+            
+            if (!url) {
+                showResult('Please enter a URL', 'error');
+                return;
+            }
+            
+            showLoader();
+            
+            const options = { format };
+            if (audioOnly) {
+                options.format = 'bestaudio/best';
+                options.postprocessors = [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                }];
+            }
+            
+            try {
+                const response = await fetch('/api/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url, options }),
+                });
+                
+                const data = await response.json();
+                hideLoader();
+                
+                if (data.success) {
+                    showResult(`✓ Successfully downloaded: <strong>${data.title}</strong><br>File: ${data.filename}`, 'success');
+                } else {
+                    showResult(`Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                hideLoader();
+                showResult(`Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Allow Enter key to trigger info
+        document.getElementById('url').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                getInfo();
+            }
+        });
+    </script>
+</body>
+</html>

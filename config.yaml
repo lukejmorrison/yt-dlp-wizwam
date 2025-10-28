@@ -1,0 +1,27 @@
+# Default configuration for yt-dlp-wizwam
+
+# Output directory for downloads
+output_dir: ./downloads
+
+# Default download format
+format: best
+
+# Server settings
+server:
+  host: 127.0.0.1
+  port: 5000
+  debug: false
+
+# Plugin settings
+plugins:
+  # Enable auto-discovery of plugins
+  auto_discover: true
+  
+  # Plugin directory (relative to project root)
+  plugin_dir: wizwam/plugins
+
+# yt-dlp options (can be overridden per download)
+ytdlp_options:
+  quiet: false
+  no_warnings: false
+  extract_flat: false

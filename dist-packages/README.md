@@ -2,63 +2,65 @@
 
 ## Quick Installation
 
+These installers always point to the latest stable version. They will automatically:
+- Install Python 3.10+ and dependencies
+- Set up a virtual environment
+- Install yt-dlp-wizwam
+- Create launcher scripts in your PATH
+
 ### Ubuntu / Debian / Linux Mint / Pop!_OS
 ```bash
-wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-ubuntu-0.0.2-alpha.sh
-chmod +x install-ubuntu-0.0.2-alpha.sh
-./install-ubuntu-0.0.2-alpha.sh
+wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-ubuntu-latest.sh
+chmod +x install-ubuntu-latest.sh
+./install-ubuntu-latest.sh
 ```
 
 ### Arch Linux / Manjaro / EndeavourOS
 ```bash
-wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-arch-0.0.2-alpha.sh
-chmod +x install-arch-0.0.2-alpha.sh
-./install-arch-0.0.2-alpha.sh
+wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-arch-latest.sh
+chmod +x install-arch-latest.sh
+./install-arch-latest.sh
 ```
 
 ### macOS (Intel & Apple Silicon)
 ```bash
-curl -O https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-macos-0.0.2-alpha.sh
-chmod +x install-macos-0.0.2-alpha.sh
-./install-macos-0.0.2-alpha.sh
+curl -O https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-macos-latest.sh
+chmod +x install-macos-latest.sh
+./install-macos-latest.sh
 ```
 
 ### Windows 10/11
 Download and run in PowerShell (as Administrator):
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-windows-0.0.2-alpha.ps1" -OutFile "install.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-windows-latest.ps1" -OutFile "install.ps1"
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\install.ps1
 ```
 
-### Generic Source Installation
-For other Linux distributions or manual installation:
+### Manual Installation from Source
+For other systems or custom installations:
 ```bash
-# Download source package
-wget https://github.com/lukejmorrison/yt-dlp-wizwam/releases/download/v0.0.2-alpha/yt-dlp-wizwam-v0.0.2-alpha-source.zip
-unzip yt-dlp-wizwam-v0.0.2-alpha-source.zip
-cd yt-dlp-wizwam-v0.0.2-alpha
+# Clone repository
+git clone https://github.com/lukejmorrison/yt-dlp-wizwam.git
+cd yt-dlp-wizwam
 
 # Install
 pip install .
+
+# Or for development
+pip install -e ".[dev]"
 ```
 
-## Files in This Distribution
+## Available Files
 
 | File | Description | Platform |
 |------|-------------|----------|
-| `install-ubuntu-0.0.2-alpha.sh` | Single-file installer | Ubuntu, Debian, Mint, Pop!_OS |
-| `install-arch-0.0.2-alpha.sh` | Single-file installer | Arch, Manjaro, EndeavourOS |
-| `install-macos-0.0.2-alpha.sh` | Single-file installer | macOS (Intel & M1/M2/M3) |
-| `install-windows-0.0.2-alpha.ps1` | PowerShell installer | Windows 10/11 |
-| `yt-dlp-wizwam-v0.0.2-alpha-source.zip` | Source code package | All platforms |
-| `SHA256SUMS.txt` | Checksums for verification | - |
+| `install-ubuntu-latest.sh` | Single-file installer | Ubuntu, Debian, Mint, Pop!_OS |
+| `install-arch-latest.sh` | Single-file installer | Arch, Manjaro, EndeavourOS |
+| `install-macos-latest.sh` | Single-file installer | macOS (Intel & M1/M2/M3) |
+| `install-windows-latest.ps1` | PowerShell installer | Windows 10/11 |
 
-## Verify Downloads
-
-```bash
-sha256sum -c SHA256SUMS.txt
-```
+> **Note:** For version-specific installers and source packages, see the [Releases](https://github.com/lukejmorrison/yt-dlp-wizwam/releases) page.
 
 ## Requirements
 
@@ -81,7 +83,7 @@ Web interface will be available at: http://localhost:8080
 
 ### Permission Denied
 ```bash
-chmod +x install-*.sh
+chmod +x install-*-latest.sh
 ```
 
 ### Python Version Issues

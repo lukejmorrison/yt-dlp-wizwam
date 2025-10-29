@@ -19,34 +19,42 @@ A powerful, user-friendly wrapper around yt-dlp that provides both command-line 
 
 ### Quick Install - OS-Specific Single-File Installers
 
+**Latest installers available in:** [`dist-packages/`](https://github.com/lukejmorrison/yt-dlp-wizwam/tree/main/dist-packages)
+
 #### Ubuntu / Debian / Linux Mint / Pop!_OS
 ```bash
-wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-ubuntu-0.0.2-alpha.sh
-chmod +x install-ubuntu-0.0.2-alpha.sh
-./install-ubuntu-0.0.2-alpha.sh
+# Download the latest Ubuntu installer
+wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-ubuntu-latest.sh
+chmod +x install-ubuntu-latest.sh
+./install-ubuntu-latest.sh
 ```
 
 #### Arch Linux / Manjaro / EndeavourOS
 ```bash
-wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-arch-0.0.2-alpha.sh
-chmod +x install-arch-0.0.2-alpha.sh
-./install-arch-0.0.2-alpha.sh
+# Download the latest Arch installer
+wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-arch-latest.sh
+chmod +x install-arch-latest.sh
+./install-arch-latest.sh
 ```
 
 #### macOS (Intel & Apple Silicon)
 ```bash
-curl -O https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-macos-0.0.2-alpha.sh
-chmod +x install-macos-0.0.2-alpha.sh
-./install-macos-0.0.2-alpha.sh
+# Download the latest macOS installer
+curl -O https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-macos-latest.sh
+chmod +x install-macos-latest.sh
+./install-macos-latest.sh
 ```
 
 #### Windows 10/11
 Download and run in PowerShell (as Administrator):
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-windows-0.0.2-alpha.ps1" -OutFile "install.ps1"
+# Download the latest Windows installer
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-windows-latest.ps1" -OutFile "install.ps1"
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\install.ps1
 ```
+
+> **Note:** Check the [`dist-packages/`](https://github.com/lukejmorrison/yt-dlp-wizwam/tree/main/dist-packages) directory or [Releases](https://github.com/lukejmorrison/yt-dlp-wizwam/releases) page for version-specific installers.
 
 ### Alternative Installation Methods
 
@@ -337,9 +345,7 @@ MIT License - see LICENSE file for details
 
 ## Version
 
-Current version: 1.0.0
-
-See [CHANGELOG.md](CHANGELOG.md) for version history.
+See [CHANGELOG.md](CHANGELOG.md) for version history and [`yt_dlp_wizwam/__init__.py`](yt_dlp_wizwam/__init__.py) for current version.
 
 ## Support
 

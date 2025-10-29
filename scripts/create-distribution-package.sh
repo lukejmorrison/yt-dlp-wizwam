@@ -562,6 +562,20 @@ WINDOWS_EOF
 sed -i "s/__VERSION__/$VERSION/g" "$DIST_DIR/install-windows-${VERSION}.ps1"
 echo "  ✅ install-windows-${VERSION}.ps1"
 
+# Create "latest" symbolic links for version-agnostic URLs
+echo ""
+echo -e "${BLUE}Creating version-agnostic 'latest' symlinks...${NC}"
+cd "$DIST_DIR"
+ln -sf "install-ubuntu-${VERSION}.sh" "install-ubuntu-latest.sh"
+ln -sf "install-arch-${VERSION}.sh" "install-arch-latest.sh"
+ln -sf "install-macos-${VERSION}.sh" "install-macos-latest.sh"
+ln -sf "install-windows-${VERSION}.ps1" "install-windows-latest.ps1"
+cd - > /dev/null
+echo "  ✅ install-ubuntu-latest.sh -> install-ubuntu-${VERSION}.sh"
+echo "  ✅ install-arch-latest.sh -> install-arch-${VERSION}.sh"
+echo "  ✅ install-macos-latest.sh -> install-macos-${VERSION}.sh"
+echo "  ✅ install-windows-latest.ps1 -> install-windows-${VERSION}.ps1"
+
 echo ""
 echo -e "${GREEN}✅ OS-specific installers created${NC}"
 echo ""

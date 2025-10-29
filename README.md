@@ -17,7 +17,59 @@ A powerful, user-friendly wrapper around yt-dlp that provides both command-line 
 
 ## Installation
 
-### Linux (One-Line Installer)
+### Quick Install - OS-Specific Single-File Installers
+
+#### Ubuntu / Debian / Linux Mint / Pop!_OS
+```bash
+wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-ubuntu-0.0.2-alpha.sh
+chmod +x install-ubuntu-0.0.2-alpha.sh
+./install-ubuntu-0.0.2-alpha.sh
+```
+
+#### Arch Linux / Manjaro / EndeavourOS
+```bash
+wget https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-arch-0.0.2-alpha.sh
+chmod +x install-arch-0.0.2-alpha.sh
+./install-arch-0.0.2-alpha.sh
+```
+
+#### macOS (Intel & Apple Silicon)
+```bash
+curl -O https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-macos-0.0.2-alpha.sh
+chmod +x install-macos-0.0.2-alpha.sh
+./install-macos-0.0.2-alpha.sh
+```
+
+#### Windows 10/11
+Download and run in PowerShell (as Administrator):
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lukejmorrison/yt-dlp-wizwam/main/dist-packages/install-windows-0.0.2-alpha.ps1" -OutFile "install.ps1"
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\install.ps1
+```
+
+### Alternative Installation Methods
+
+#### From PyPI (When Published)
+
+```bash
+pip install yt-dlp-wizwam
+```
+
+#### Manual Installation from Source
+
+```bash
+git clone https://github.com/lukejmorrison/yt-dlp-wizwam.git
+cd yt-dlp-wizwam
+
+# For user installation (recommended)
+pip install --user .
+
+# For development
+pip install -e ".[dev]"
+```
+
+#### Linux Generic Installer
 
 ```bash
 # Clone and install
@@ -29,25 +81,6 @@ cd yt-dlp-wizwam
 ./install-linux.sh --help              # Show all installation options
 ./install-linux.sh --venv ~/.venvs/ytdlp  # Install in virtual environment
 ./install-linux.sh --dev               # Install with development dependencies
-```
-
-### From PyPI (When Published)
-
-```bash
-pip install yt-dlp-wizwam
-```
-
-### Manual Installation
-
-```bash
-git clone https://github.com/lukejmorrison/yt-dlp-wizwam.git
-cd yt-dlp-wizwam
-
-# For user installation (recommended)
-pip install --user .
-
-# For development
-pip install -e ".[dev]"
 ```
 
 ## Quick Start

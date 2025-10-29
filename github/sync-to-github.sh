@@ -624,7 +624,7 @@ if [ $? -eq 0 ]; then
     # Recompute the short commit hash (in case)
     PUSHED_COMMIT_HASH=$(git rev-parse --short HEAD 2>/dev/null || true)
     if [ -n "$PUSHED_COMMIT_HASH" ]; then
-        PUSHED_COMMIT_URL="https://github.com/lukejmorrison/yt-dlp.wizwam.com/commit/$PUSHED_COMMIT_HASH"
+        PUSHED_COMMIT_URL="https://github.com/lukejmorrison/yt-dlp-wizwam/commit/$PUSHED_COMMIT_HASH"
     fi
 
     echo -e "${GREEN}✅ COMPLETED:${NC}"
@@ -647,11 +647,11 @@ if [ $? -eq 0 ]; then
         echo -e "  ${GREEN}git tag -a $CURRENT_VERSION -m 'Release $CURRENT_VERSION' && git push origin $CURRENT_VERSION${NC}"
         echo ""
         echo "  After tagging, you can create a GitHub Release using the web UI:" 
-        echo "   https://github.com/lukejmorrison/yt-dlp.wizwam.com/releases/new?tag=$CURRENT_VERSION"
+        echo "   https://github.com/lukejmorrison/yt-dlp-wizwam/releases/new?tag=$CURRENT_VERSION"
     fi
     echo ""
-    echo -e "${BLUE}� GitHub Repository:${NC}"
-    echo -e "  ${GREEN}https://github.com/lukejmorrison/yt-dlp.wizwam.com${NC}"
+    echo -e "${BLUE}🌐 GitHub Repository:${NC}"
+    echo -e "  ${GREEN}https://github.com/lukejmorrison/yt-dlp-wizwam${NC}"
     echo ""
     echo ""
 else

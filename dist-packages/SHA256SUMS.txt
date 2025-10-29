@@ -1,0 +1,5 @@
+b024c7cdb38afed558a7705fdea17e348544b1f9790ac2eefb4d4b709f251187  install-arch-0.0.2-alpha.sh
+93773a955f9f1005b7a3e32553d2230af604a3dfe416a634cc4f6cbcb7003e9e  install-macos-0.0.2-alpha.sh
+e5e201bbd9074485ea93583580a4ef92af07696f10b125a4d88312cb228c90ec  install-ubuntu-0.0.2-alpha.sh
+4f8901402d35d6878134a0787d2f0933530e40b2698c532377e87f34376a7cd8  install-windows-0.0.2-alpha.ps1
+57f3f58d18ab2167ebb85d618f185bafcf12e0c209ce8d51bccb649d3f4d579a  yt-dlp-wizwam-v0.0.2-alpha-source.zip

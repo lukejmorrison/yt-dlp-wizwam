@@ -16,6 +16,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.2-alpha] - 2025-10-28
 
+### Added
+- **OS-Specific Distribution Packages** - Single-file installers for major platforms
+  - Ubuntu/Debian installer (`install-ubuntu-0.0.2-alpha.sh`)
+  - Arch Linux installer (`install-arch-0.0.2-alpha.sh`)
+  - macOS installer for Intel & Apple Silicon (`install-macos-0.0.2-alpha.sh`)
+  - Windows PowerShell installer (`install-windows-0.0.2-alpha.ps1`)
+  - Source distribution package (`yt-dlp-wizwam-v0.0.2-alpha-source.zip`)
+  - SHA256 checksums for all packages (`SHA256SUMS.txt`)
+  - Comprehensive installation guide (`dist-packages/README.md`)
+- **Distribution Package Script** - Automated creation of OS-specific installers
+  - Script: `scripts/create-distribution-package.sh`
+  - Creates single-file installers users can raw download from GitHub
+  - Automatic dependency installation (Python, pip, ffmpeg)
+  - Virtual environment setup in `~/.local/share/yt-dlp-wizwam`
+  - System-wide launcher creation in `~/.local/bin`
+  - PATH configuration for all shells
+  - Backup of previous installations
+- **Enhanced Sync Script** - Consolidated GitHub synchronization tool
+  - Removed basic `scripts/sync-to-github.sh` to avoid confusion
+  - Enhanced `github/sync-to-github.sh` with full feature set:
+    - `--help` - Show usage documentation
+    - `--testgitauth` - Test GitHub authentication before syncing
+    - `--dry-run` - Preview changes without committing
+    - `--auto` - Fully automated sync for CI/CD
+  - Smart security scanning (skips .sh, .md, backup files)
+  - Dynamic branch detection
+  - Improved error handling and troubleshooting guides
+
+## [0.0.2-alpha] - 2025-10-28 (Initial Release Features)
+
 ### Fixed
 - **Progress bar stuck at 0%** - Implemented proper percentage extraction
   - Added `downloaded_bytes / total_bytes` calculation in downloader.py

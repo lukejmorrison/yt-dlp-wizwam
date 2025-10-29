@@ -48,6 +48,66 @@
   - [x] `templates/index.html` → Matrix theme, Socket.IO client, download form
   - [x] `templates/about.html` → Version info, features, credits
   - [x] `templates/settings.html` → Configuration display, localStorage settings
+
+---
+
+## Phase 2.5: Distribution Packaging ✅
+
+**Status:** COMPLETED (2025-10-28)
+
+**Goal:** Create OS-specific single-file installers for easy distribution.
+
+### Tasks:
+
+#### 2.5.1 Distribution Package Script ✅
+- [x] Create `scripts/create-distribution-package.sh` (232 lines)
+- [x] Python regex-based version extraction from `__init__.py`
+- [x] Output directory: `dist-packages/`
+- [x] Generate SHA256 checksums for all packages
+- [x] Create comprehensive installation guide
+
+#### 2.5.2 OS-Specific Installers ✅
+- [x] **Ubuntu/Debian Installer** (`install-ubuntu-{version}.sh`)
+  - [x] apt-based dependency installation (python3, pip, ffmpeg)
+  - [x] Virtual environment in `~/.local/share/yt-dlp-wizwam`
+  - [x] Launcher scripts in `~/.local/bin`
+  - [x] Automatic PATH configuration in `.bashrc`
+  - [x] Backup of previous installations
+- [x] **Arch Linux Installer** (`install-arch-{version}.sh`)
+  - [x] pacman-based dependency installation
+  - [x] Same venv and launcher structure as Ubuntu
+  - [x] Compatible with Manjaro, EndeavourOS
+- [x] **macOS Installer** (`install-macos-{version}.sh`)
+  - [x] Homebrew installation if needed
+  - [x] Python 3.11 installation via brew
+  - [x] ffmpeg installation via brew
+  - [x] Installation in `~/Library/Application Support/yt-dlp-wizwam`
+  - [x] zsh PATH configuration
+  - [x] Intel and Apple Silicon support
+- [x] **Windows Installer** (`install-windows-{version}.ps1`)
+  - [x] PowerShell script for Windows 10/11
+  - [x] Python version checking (3.10+)
+  - [x] Installation in `%LOCALAPPDATA%\yt-dlp-wizwam`
+  - [x] Batch launcher scripts in WindowsApps
+  - [x] FFmpeg installation instructions
+- [x] **Source Package** (`yt-dlp-wizwam-v{version}-source.zip`)
+  - [x] Complete source code
+  - [x] Setup files and documentation
+  - [x] Auto-generated INSTALL.txt
+  - [x] For manual installation on any platform
+
+#### 2.5.3 GitHub Sync Enhancement ✅
+- [x] Remove basic `scripts/sync-to-github.sh` (368 lines) to avoid confusion
+- [x] Keep enhanced `github/sync-to-github.sh` (671 lines) as primary tool
+- [x] Features: `--help`, `--testgitauth`, `--dry-run`, `--auto`
+- [x] Smart security scanning (excludes scripts, markdown, backups)
+- [x] Automatic detection and staging of `dist-packages/` directory
+
+#### 2.5.4 Documentation Updates ✅
+- [x] Update `README.md` with OS-specific installation commands
+- [x] Update `CHANGELOG.md` with distribution packaging features
+- [x] Update `TODO.md` with Phase 2.5 completion status
+- [x] Create `dist-packages/README.md` with quick start guide
   - [x] `templates/viewer.html` → In-browser video player
 - [x] Update template paths in `web.py` (already correct)
 - [x] Test template rendering ✅ **VERIFIED**
